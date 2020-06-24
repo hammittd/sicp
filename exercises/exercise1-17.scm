@@ -18,14 +18,12 @@
 ;; design a multiplication procedure analogous to fast-expt that uses a
 ;; logarithmic number of steps.
 
-(define (fast-* a b)
-  (define (double x)
-    (+ x x))
+
+(define (recursive-logarithmic-* a b)
   (define (halve x)
     (/ x 2))
-  (define (iter a b n)
-    (cond ((eq? b 0) n)
-          ((even? b) (iter (double a) (halve b) n))
-          ((iter a (dec b) (+ a n)))))
-  (iter a b 0))
-
+  (define (double x)
+    (+ x x))
+  (cond ((eq? b 0) 0)
+        ((even? b) (recursive-logarithmic-* (double a) (halve b)))
+        ((+ a (recursive-logarithmic-* a (- b 1))))))
